@@ -1,20 +1,22 @@
 import path from 'path';
-import fs from 'fs';
+import fs from 'fs/promises';
 
 class Cache {
     private rootPath = path.join(__dirname, "../");
-    public cacheMap = new Map<string, string>();
-    public setCache(file: string) {
-        fs.readFile(path.join(this.rootPath, file), (err, data)=>{
-            if(err) {
-                console.error(`Error loading ${file}: ${err}`)
-            }
-            this.cacheMap.set(file, data.toString());
-        });
+    private cacheMap = new Map<string, string>();
+    public async setCache(file: string) {
+        try {
+            this.cacheMap.set(file, await fs.readFile(path.join(this.rootPath, file), 'utf-8'));
+        } catch(err) {
+            console.error(`Error loading ${file}: ${err}`)
+        }
+    }
+    public async getCache(file: string): Promise<string> {
+        if(!this.cacheMap.has(file)) await this.setCache(file);
+        return this.cacheMap.get(file)
     }
 }
 
 const cacheInstance = new Cache();
-cacheInstance.setCache("front/index.html");
 
 export default cacheInstance;

@@ -1,13 +1,8 @@
-import cache from './cache';
-import path from 'path';
+import frontRouter from './frontRouter';
 import Express from 'express';
 
 const server = Express();
 
-server.use('/static', Express.static(path.join(__dirname, "../front/static/")));
-
-server.get("/", (req, res)=>{
-    res.send(cache.cacheMap.get("front/index.html"));
-});
+frontRouter(server);
 
 export default server;

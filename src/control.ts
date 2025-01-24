@@ -1,8 +1,8 @@
 import { exec } from "child_process";
 
 class Control {
-    private runCommand(command: string) {
-        exec(command, (error, stdout, stderr) => {
+    private async runCommand(command: string) {
+        exec(command, async (error, stdout, stderr) => {
             if(error) {
                 console.error(`An error running command "${command}": ${error.message}`);
                 return;
@@ -16,21 +16,23 @@ class Control {
             }
         });
     }
-    public shutdown() {
-        this.runCommand("sudo poweroff now");
+    public async shutdown() {
+        await this.runCommand("sudo poweroff now");
     }
-    public reboot() {
-        this.runCommand("sudo reboot now");
+    public async reboot() {
+        await this.runCommand("sudo reboot now");
     }
-    public setHdStandby(time: number) {
+    public async setHdStandby(time: number) {
         const drives = ['/dev/sdb', '/dev/sdc', '/dev/sdd'];
-        drives.forEach(drive => {
-            this.runCommand(`sudo hdparm -S ${time} ${drive}`);
-        });
+
+        for(const drive of drives) {
+            await this.runCommand(`sudo hdparm -S ${time} ${drive}`);
+        }
+        
         if(time == 0) return;
-        drives.forEach(drive => {
-            this.runCommand(`sudo hdparm -Y ${drive}`);
-        });
+        for(const drive of drives) {
+            await this.runCommand(`sudo hdparm -Y ${drive}`);
+        }
     }
 }
 const controlInstance = new Control();
