@@ -1,10 +1,14 @@
 import control from './control';
+import cache from './cache';
+import path from 'path';
 import Express from 'express';
 
-const App = new Express();
+const App = Express();
+
+App.use('/static', Express.static(path.join(__dirname, "../front/static/")));
 
 App.get("/", (req, res)=>{
-    res.status(200).send("running ok.");
+    res.send(cache.cacheMap.get("front/index.html"));
 });
 
 App.listen(8080, ()=>{
