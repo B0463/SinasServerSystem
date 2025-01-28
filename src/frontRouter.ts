@@ -9,9 +9,9 @@ class FrontRouter {
 
     constructor(server: Express.Application) {
         this.App = server;
-        this.router();
     }
-    private async router() {
+    
+    public async router() {
         const frontRoutes: FrontRoutes = await config.get('config/frontRoutes.json');
     
         this.App.use(frontRoutes.static.path, Express.static(

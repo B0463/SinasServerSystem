@@ -18,3 +18,15 @@ export type ControlConfig = {
     },
     drives: string[]
 }
+
+export type ServerConfig= {
+    useHttps: boolean,
+    forceHttps: boolean,
+    httpPort: number,
+    httpsPort: number,
+    ssl?: {
+        key: string,
+        cert: string,
+        ca?: string
+    }
+}

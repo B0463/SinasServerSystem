@@ -1,5 +1,5 @@
-import server from './server';
+import Server from './server';
 
-server.listen(8080, async ()=>{
-    console.log("running http server on port [8080]");
-});
+const ServerInstance = new Server;
+
+ServerInstance.start();

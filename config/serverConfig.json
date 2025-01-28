@@ -1,0 +1,11 @@
+{
+    "useHttps": false,
+    "forceHttps": false,
+    "httpPort": 8080,
+    "httpsPort": 8443,
+    "ssl": {
+        "key": "config/ssl/key.pem",
+        "cert": "config/ssl/cert.pem",
+        "ca": "config/ssl/ca.pem"
+    }
+}
