@@ -1,0 +1,6 @@
+{
+    "static": {"path": "/static", "file": "front/static/"},
+    "routes": [
+        {"path": "/", "file": "front/index.html"}
+    ]
+}

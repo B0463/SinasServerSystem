@@ -1,4 +1,3 @@
-import control from './control';
 import server from './server';
 
 server.listen(8080, async ()=>{
