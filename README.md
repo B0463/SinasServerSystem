@@ -40,7 +40,8 @@ cd SinasServerSystem
 npm install --production
 mkdir dist
 npx tsc
-sudo rm -r .git/ .gitignore README.md rsconfig.json src/
+sudo rm -r .git/ .gitignore README.md tsconfig.json src/
+mkdir config/ssl
 ~~~
 
 ### Run
@@ -66,6 +67,7 @@ git clone https://github.com/B0463/SinasServerSystem.git
 cd SinasServerSystem
 npm install
 mkdir dist
+mkdir config/ssl
 ~~~
 
 ### Compile and Run
@@ -80,3 +82,86 @@ node dist/main.js
 ### Push
 
 To push your code, you can create a fork and use the debug branch.
+
+## Configuration
+
+You can configure all your server settings in the `config/` directory, using the following files:
+
+### `serverConfig.json`
+
+This file contains configuration for the server:
+
+~~~json
+{
+    "useHttps": false, 
+    "forceHttps": false, 
+    "httpPort": 8080, 
+    "httpsPort": 8443, 
+    "ssl": {
+        "key": "config/ssl/key.pem", 
+        "cert": "config/ssl/cert.pem", 
+        "ca": "config/ssl/ca.pem" 
+    }
+}
+~~~
+
+- **useHttps**: Set to `true` to use the HTTPS server.
+- **forceHttps**: Set to `true` to redirect HTTP traffic to HTTPS.
+- **httpPort**: The port for the HTTP server (should be above `1024`).
+- **httpsPort**: The port for the HTTPS server (should be above `1024`).
+- **ssl**: SSL configuration (optional). If using HTTPS, this section is required:
+  - **key**: Path to the SSL key file.
+  - **cert**: Path to the SSL certificate file.
+  - **ca**: Path to the SSL certificate authority file (optional).
+
+### `frontRoutes.json`
+
+This file contains the front-end routing and static file configurations:
+
+~~~json
+{
+    "static": {
+        "path": "/static", 
+        "file": "front/static/", 
+        "maxAge": "1d"
+    },
+    "routes": [
+        {"path": "/", "file": "front/index.html"}
+    ]
+}
+~~~
+
+- **static**: Defines settings for static files.
+  - **path**: URL path to access static files.
+  - **file**: Local path to the static files.
+  - **maxAge**: Specifies the cache duration for static files in the user's browser (can use either seconds or an ISO date format).
+- **routes**: Defines frontend route mappings.
+  - **path**: The URL path to map.
+  - **file**: The path to the frontend HTML file to serve.
+
+### `controlConfig.json`
+
+This file sets up control commands and drive management:
+
+~~~json
+{
+    "commands": {
+        "shutdown": "sudo poweroff now",
+        "reboot": "sudo reboot now",
+        "hdmgr": "sudo hdparm"
+    },
+    "drives": [
+        "/dev/sdb",
+        "/dev/sdc",
+        "/dev/sdd"
+    ]
+}
+~~~
+
+- **commands**: Defines the control commands that the system can execute.
+  - **shutdown**: The command to shut down the server.
+  - **reboot**: The command to reboot the server.
+  - **hdmgr**: The command to manage the hard drives.
+- **drives**: Lists the drives to stop for energy efficiency (optional).
+
+With these steps, your server system will be set up for both use and development. Let me know if you need any further help!
