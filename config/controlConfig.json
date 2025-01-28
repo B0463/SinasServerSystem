@@ -1,0 +1,12 @@
+{
+    "commands": {
+        "shutdown": "sudo poweroff now",
+        "reboot": "sudo reboot now",
+        "hdmgr": "sudo hdparm"
+    },
+    "drives": [
+        "/dev/sdb",
+        "/dev/sdc",
+        "/dev/sdd"
+    ]
+}

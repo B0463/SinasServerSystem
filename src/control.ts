@@ -1,4 +1,6 @@
 import { exec } from "child_process";
+import { ControlConfig } from "./types";
+import config from "./config";
 
 class Control {
     private async runCommand(command: string) {
@@ -16,24 +18,31 @@ class Control {
             }
         });
     }
-    public async shutdown() {
-        await this.runCommand("sudo poweroff now");
-    }
-    public async reboot() {
-        await this.runCommand("sudo reboot now");
-    }
-    public async setHdStandby(time: number) {
-        const drives = ['/dev/sdb', '/dev/sdc', '/dev/sdd'];
 
-        for(const drive of drives) {
+    public async shutdown() {
+        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+        await this.runCommand(controlConfig.commands.shutdown);
+    }
+
+    public async reboot() {
+        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+        await this.runCommand(controlConfig.commands.reboot);
+    }
+
+    public async setHdStandby(time: number) {
+        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+
+        for(const drive of controlConfig.drives) {
             await this.runCommand(`sudo hdparm -S ${time} ${drive}`);
         }
         
         if(time == 0) return;
-        for(const drive of drives) {
+        for(const drive of controlConfig.drives) {
             await this.runCommand(`sudo hdparm -Y ${drive}`);
         }
     }
 }
+
 const controlInstance = new Control();
+
 export default controlInstance;
