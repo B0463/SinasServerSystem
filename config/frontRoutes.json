@@ -1,5 +1,9 @@
 {
-    "static": {"path": "/static", "file": "front/static/"},
+    "static": {
+        "path": "/static",
+        "file": "front/static/",
+        "maxAge": "1d"
+    },
     "routes": [
         {"path": "/", "file": "front/index.html"}
     ]

@@ -1,11 +1,13 @@
-export type Route = {
-    path: string,
-    file: string
-}
-
 export type FrontRoutes = {
-    static: Route,
-    routes: Route[]
+    static: {
+        path: string,
+        file: string,
+        maxAge: string | number
+    },
+    routes: {
+        path: string,
+        file: string
+    }[]
 }
 
 export type ControlConfig = {

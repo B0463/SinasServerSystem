@@ -1,8 +1,8 @@
-import frontRouter from './frontRouter';
+import FrontRouter from './frontRouter';
 import Express from 'express';
 
 const server = Express();
 
-frontRouter(server);
+new FrontRouter(server);
 
 export default server;
