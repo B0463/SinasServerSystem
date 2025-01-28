@@ -5,27 +5,27 @@ class Config {
     private rootPath = path.join(__dirname, "../");
     private configMap = new Map<string, object>();
 
-    public async setConfig(file: string) {
-        this.configMap.set(file, JSON.parse(await cache.getCache(file)));
+    public async set(file: string) {
+        this.configMap.set(file, JSON.parse(await cache.get(file)));
     }
 
-    public async getConfig(file: string): Promise<any> {
-        if(!this.configMap.has(file)) await this.setConfig(file);
+    public async get(file: string): Promise<any> {
+        if(!this.configMap.has(file)) await this.set(file);
         return this.configMap.get(file);
     }
 
-    public async deleteConfig(file: string) {
+    public async delete(file: string) {
         if(this.configMap.has(file)) this.configMap.delete(file);
-        cache.deleteCache(file);
+        cache.delete(file);
     }
 
-    public async clearConfig() {
+    public async clear() {
         this.configMap.clear();
     }
 
-    public async refreshConfig() {
+    public async refresh() {
         for(const element of this.configMap.keys()) {
-            await this.getConfig(element);
+            await this.get(element);
         }
     }
 }

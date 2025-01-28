@@ -20,17 +20,17 @@ class Control {
     }
 
     public async shutdown() {
-        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+        const controlConfig: ControlConfig = await config.get("config/controlConfig.json");
         await this.runCommand(controlConfig.commands.shutdown);
     }
 
     public async reboot() {
-        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+        const controlConfig: ControlConfig = await config.get("config/controlConfig.json");
         await this.runCommand(controlConfig.commands.reboot);
     }
 
     public async setHdStandby(time: number) {
-        const controlConfig: ControlConfig = await config.getConfig("config/controlConfig.json");
+        const controlConfig: ControlConfig = await config.get("config/controlConfig.json");
 
         for(const drive of controlConfig.drives) {
             await this.runCommand(`sudo hdparm -S ${time} ${drive}`);

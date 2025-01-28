@@ -5,7 +5,7 @@ import { FrontRoutes } from './types';
 import path from 'path';
 
 async function router(server: Express.Application) {
-    const frontRoutes: FrontRoutes = await config.getConfig('config/frontRoutes.json');
+    const frontRoutes: FrontRoutes = await config.get('config/frontRoutes.json');
 
     server.use(frontRoutes.static.path, Express.static(
         path.join(__dirname, "../", frontRoutes.static.file),
@@ -14,11 +14,11 @@ async function router(server: Express.Application) {
 
     frontRoutes.routes.forEach(route => {
         server.get(route.path, async (req, res)=>{
-            res.send(await cache.getCache(route.file));
+            res.send(await cache.get(route.file));
         });
     });
 
-    await config.deleteConfig('config/frontRoutes.json');
+    await config.delete('config/frontRoutes.json');
 }
 
 export default router;
