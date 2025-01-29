@@ -19,7 +19,7 @@ export type ControlConfig = {
     drives: string[]
 }
 
-export type ServerConfig= {
+export type ServerConfig = {
     useHttps: boolean,
     forceHttps: boolean,
     httpPort: number,
@@ -29,4 +29,9 @@ export type ServerConfig= {
         cert: string,
         ca?: string
     }
+}
+
+export type ApiConfig = {
+    jwt_secret: string,
+    expireTime: number | string;
 }

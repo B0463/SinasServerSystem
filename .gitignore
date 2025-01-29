@@ -2,4 +2,5 @@
 /dist/*
 package-lock.json
 config/ssl/*
+config/apiConfig.json
 DB/*
