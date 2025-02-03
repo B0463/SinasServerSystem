@@ -2,10 +2,10 @@ import Express from 'express';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
-import config from './config';
+import config from '../config';
 import FrontRouter from './frontRouter';
-import Api from './api';
-import { ServerConfig } from './types';
+import Api from './api/api';
+import { ServerConfig } from '../types';
 
 class Server {
     private App: Express.Application;
@@ -13,19 +13,14 @@ class Server {
     private ApiInstance: Api;
     private RedirectRoute;
 
-    constructor() {
+    public async init() {
         this.App = Express();
-        this.RouterInstance = new FrontRouter(this.App);
-        this.ApiInstance = new Api(this.App);
+        this.RouterInstance = new FrontRouter;
+        this.ApiInstance = new Api;
         this.RedirectRoute = (req, res) => {
             res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
             res.end();
         }
-    }
-    
-    private async route() {
-        await this.RouterInstance.router();
-        await this.ApiInstance.router();
     }
 
     private async listen(): Promise<number> {
@@ -67,7 +62,8 @@ class Server {
     }
 
     public async start() {
-        await this.route();
+        await this.ApiInstance.init(this.App);
+        await this.RouterInstance.init(this.App);
         if(await this.listen()) {
             console.error("Cannot start SinasServerSystem.");
             process.exit(1);

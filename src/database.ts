@@ -21,6 +21,7 @@ class Database {
                 password TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 last_login DATETIME,
+                session_token TEXT,
                 status INTEGER DEFAULT 1,
                 role INTEGER DEFAULT 0
             );
@@ -38,6 +39,12 @@ class Database {
             user.username,
             user.password,
         ]);
+
+        user = await this.getUser("username", user.username);
+        if(user.id != 1) return;
+
+        await this.updateUser(1, "status", 2);
+        await this.updateUser(1, "role", 1000);
     }
 
     public async getUser(by: keyof User, value: string | number): Promise<User | null> {
@@ -55,14 +62,16 @@ class Database {
         return user;
     }
 
-    public async updateUser(id: Number, field: keyof User, value: string | number) {
-        const query = `
+    public async updateUser(id: number, field: keyof User, value: string | number) {
+        let query = `
             UPDATE users 
-            SET ${field} = ?
+            SET ${field} = ${value === "CURRENT_TIMESTAMP" ? "CURRENT_TIMESTAMP" : "?"}
             WHERE id = ?;
         `;
-        await this.db.run(query, [value, id]);
+    
+        await this.db.run(query, value === "CURRENT_TIMESTAMP" ? [id] : [value, id]);
     }
+    
 
     public async deleteUser(id: Number) {
         const query = `DELETE FROM users WHERE id = ?`;
