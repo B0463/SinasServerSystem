@@ -127,6 +127,8 @@ This file contains the front-end routing and static file configurations:
     },
     "routes": [
         {"path": "/", "file": "front/index.html"}
+        {"path": "/controlPanel", "file": "front/controlPanel.html"},
+        {"path": "/login", "file": "front/login.html"}
     ]
 }
 ~~~
