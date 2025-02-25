@@ -16,7 +16,7 @@ class FrontRouter {
         const frontRoutes: FrontRoutes = await config.get('config/frontRoutes.json');
     
         this.App.use(frontRoutes.static.path, Express.static(
-            path.join(__dirname, "../", frontRoutes.static.file),
+            path.join(__dirname, "../../", frontRoutes.static.file),
             { maxAge: frontRoutes.static.maxAge}
         ));
     
