@@ -40,6 +40,7 @@ cd SinasServerSystem
 npm install --production
 mkdir dist
 npx tsc
+mv _config config
 sudo rm -r .git/ .gitignore README.md tsconfig.json src/
 mkdir config/ssl
 ~~~
@@ -66,6 +67,7 @@ To start developing the system, follow these steps:
 git clone https://github.com/B0463/SinasServerSystem.git
 cd SinasServerSystem
 npm install
+cp _config config
 mkdir dist
 mkdir config/ssl
 ~~~
