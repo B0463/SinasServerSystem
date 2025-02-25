@@ -1,0 +1,4 @@
+{
+    "jwt_secret": "YOUR_JWT_SECRETE_HERE",
+    "expireTime": "1d"
+}
