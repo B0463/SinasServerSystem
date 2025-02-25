@@ -5,6 +5,8 @@
         "maxAge": "1d"
     },
     "routes": [
-        {"path": "/", "file": "front/index.html"}
+        {"path": "/", "file": "front/index.html"},
+        {"path": "/controlPanel", "file": "front/controlPanel.html"},
+        {"path": "/login", "file": "front/login.html"}
     ]
 }
