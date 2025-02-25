@@ -12,7 +12,7 @@ class Controller {
         this.jwt_secret = apiConfig.jwt_secret;
     }
 
-    public async verifyToken(token): Promise<boolean | User> {
+    public async verifyToken(token): Promise<false | User> {
         try {
             const decoded: Token = jwt.verify(token, this.jwt_secret);
             const user: User = await database.getUser("id", decoded.id);

@@ -33,12 +33,12 @@ class Control {
         const controlConfig: ControlConfig = await config.get("config/controlConfig.json");
 
         for(const drive of controlConfig.drives) {
-            await this.runCommand(`sudo hdparm -S ${time} ${drive}`);
+            await this.runCommand(`${controlConfig.commands.hdmgr} -S ${time} ${drive}`);
         }
         
         if(time == 0) return;
         for(const drive of controlConfig.drives) {
-            await this.runCommand(`sudo hdparm -Y ${drive}`);
+            await this.runCommand(`${controlConfig.commands.hdmgr} -Y ${drive}`);
         }
     }
 }
